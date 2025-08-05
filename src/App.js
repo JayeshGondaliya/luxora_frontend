@@ -30,7 +30,7 @@ const AppContent = () => {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const res = await axios.get("http://localhost:8081/api/user/get-user", {
+        const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
           withCredentials: true,
         });
         if(res.data.userId){

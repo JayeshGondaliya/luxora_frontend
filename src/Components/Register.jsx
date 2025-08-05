@@ -49,7 +49,7 @@ const Input = ({ className = "", ...props }) => (
 const Separator = () => <div className="h-px bg-border w-full my-6" />;
 
 const Register = () => {
-    const URL = "http://localhost:8081";
+    const URL = "https://luxora-backend-guh1.onrender.com";
 
     const [formData, setFormData] = useState({
         name: "",

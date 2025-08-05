@@ -44,7 +44,7 @@ const Header = () => {
     const [cartItems, setCartItems] = useState(0);
     const { userId, setUserId } = useUser();
     const navigate = useNavigate();
-    const URL = "http://localhost:8081"
+    const URL = "https://luxora-backend-guh1.onrender.com"
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
 

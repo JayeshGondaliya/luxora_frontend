@@ -59,7 +59,7 @@ const Success = () => {
     useEffect(() => {
         const fetchPaymentData = async () => {
             try {
-                const res = await axios.get(`http://localhost:8081/api/payments/session/${session_id}`);
+                const res = await axios.get(`https://luxora-backend-guh1.onrender.com/api/payments/session/${session_id}`);
                 setPaymentData(res.data);
             } catch (err) {
                 console.error("Payment fetch error:", err);
@@ -80,7 +80,7 @@ const Success = () => {
 
         const sendOrder = async () => {
             try {
-                const res = await axios.post("http://localhost:8081/api/order/saveorder", {
+                const res = await axios.post("https://luxora-backend-guh1.onrender.com/api/order/saveorder", {
                     sessionId: session_id,
                     userId: paymentData.userId,
                     email: paymentData.session.customer_details.email,
@@ -121,7 +121,7 @@ const Success = () => {
         try {
             // PDF generate કરાવવી
             const res = await axios.post(
-                "http://localhost:8081/api/pdf/generate-pdf",
+                "https://luxora-backend-guh1.onrender.com/api/pdf/generate-pdf",
                 {
                     sessionId: session_id,
                     userId: paymentData.userId,
@@ -141,7 +141,7 @@ const Success = () => {
             );
 
             if (res.data.success) {
-                const pdfUrl = `http://localhost:8081/${res.data.pdfPath}`;
+                const pdfUrl = `https://luxora-backend-guh1.onrender.com/${res.data.pdfPath}`;
                 window.open(pdfUrl, "_blank");
             } else {
                 toast.error("Invoice generation failed");

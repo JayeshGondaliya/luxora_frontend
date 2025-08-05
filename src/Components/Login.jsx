@@ -63,7 +63,7 @@ const Separator = () => (
 // Main Component
 const Login = () => {
     const { setUserId } = useUser();
-    const URL = "http://localhost:8081";
+    const URL = "https://luxora-backend-guh1.onrender.com";
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [formData, setFormData] = useState({

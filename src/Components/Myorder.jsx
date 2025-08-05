@@ -22,7 +22,7 @@ const MyOrder = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get(`http://localhost:8081/api/order/getorder/${userId}`, {
+            const res = await axios.get(`https://luxora-backend-guh1.onrender.com/api/order/getorder/${userId}`, {
                 withCredentials: true
             });
             setOrders(res.data.data || []);

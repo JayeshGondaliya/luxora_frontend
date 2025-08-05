@@ -63,7 +63,7 @@ const Separator = () => (
 const Cart = () => {
     const navigate = useNavigate()
     const { userId, cartItems, setCartItems } = useUser()
-    const URL = "http://localhost:8081";
+    const URL = "https://luxora-backend-guh1.onrender.com";
     const [total, setTotal] = useState(0)
     const getCartData = useCallback(async () => {
         try {
