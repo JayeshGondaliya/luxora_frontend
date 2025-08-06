@@ -56,10 +56,11 @@ const Success = () => {
     const [paymentData, setPaymentData] = useState(null);
     const navigate = useNavigate()
     const { setOrderData, ordersData } = useUser()
+    const URL = "https://luxora-backend-guh1.onrender.com";
     useEffect(() => {
         const fetchPaymentData = async () => {
             try {
-                const res = await axios.get(`https://luxora-backend-guh1.onrender.com/api/payments/session/${session_id}`);
+                const res = await axios.get(`${URL}/api/payments/session/${session_id}`);
                 setPaymentData(res.data);
             } catch (err) {
                 console.error("Payment fetch error:", err);
@@ -80,7 +81,7 @@ const Success = () => {
 
         const sendOrder = async () => {
             try {
-                const res = await axios.post("https://luxora-backend-guh1.onrender.com/api/order/saveorder", {
+                const res = await axios.post(`${URL}/api/order/saveorder`, {
                     sessionId: session_id,
                     userId: paymentData.userId,
                     email: paymentData.session.customer_details.email,
@@ -121,7 +122,7 @@ const Success = () => {
         try {
             // PDF generate કરાવવી
             const res = await axios.post(
-                "https://luxora-backend-guh1.onrender.com/api/pdf/generate-pdf",
+                `${URL}/api/pdf/generate-pdf`,
                 {
                     sessionId: session_id,
                     userId: paymentData.userId,
@@ -141,7 +142,7 @@ const Success = () => {
             );
 
             if (res.data.success) {
-                const pdfUrl = `https://luxora-backend-guh1.onrender.com/${res.data.pdfPath}`;
+                const pdfUrl = `${URL}/${res.data.pdfPath}`;
                 window.open(pdfUrl, "_blank");
             } else {
                 toast.error("Invoice generation failed");

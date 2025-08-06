@@ -9,11 +9,11 @@ const ProductGrid = () => {
     const { products, setProducts } = useUser()
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
-
+    const URL = "https://luxora-backend-guh1.onrender.com";
     useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
+                const res = await axios.get(`${URL}/api/product/getProductAll`, {
                     withCredentials: true
                 });
 
