@@ -27,28 +27,11 @@ const queryClient = new QueryClient();
 const AppContent = () => {
   const { userId, setUserId } = useUser();
 
-  useEffect(() => {
-    const checkUser = async () => {
-      try {
-        const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
-          withCredentials: true,
-        });
-        if(res.data.userId){
-          setUserId(res.data.userId);
-        }else{
-          setUserId(null)
-        }
-      } catch (err) {
-        setUserId(null);
-      }
-    };
 
-    checkUser();
-  }, [setUserId]);
 
   return (
     <BrowserRouter>
-      <Header />
+      <Header />   
       <Routes>
         <Route path="/" element={<Index />} />
         <Route path="/about" element={<About />} />

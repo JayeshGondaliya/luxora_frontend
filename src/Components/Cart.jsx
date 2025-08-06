@@ -62,7 +62,7 @@ const Separator = () => (
 // ✅ Main Cart Page
 const Cart = () => {
     const navigate = useNavigate()
-    const { userId, cartItems, setCartItems } = useUser()
+    const { userId, cartItems, setCartItems, loading } = useUser()
     const URL = "https://luxora-backend-guh1.onrender.com";
     const [total, setTotal] = useState(0)
     const getCartData = useCallback(async () => {
@@ -122,11 +122,19 @@ const Cart = () => {
             console.log(item.productId._id);
         });
     }, [cartItems]);
-    useEffect(() => {
-        if (!userId) {
-            navigate("/login"); // or wherever you want to redirect
-        }
-    }, [userId, navigate]);
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-lg font-semibold">Loading...</p>
+            </div>
+        );
+    }
+
+    if (!userId) {
+        navigate("/login");
+        return null;
+    }
+
     if (cartItems.length === 0) {
         return (
             <div className="min-h-screen bg-gray-50">

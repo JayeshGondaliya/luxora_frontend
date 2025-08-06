@@ -19,7 +19,28 @@ export const UserProvider = ({ children }) => {
   //     setUserId(storedUserId);
   //   }
   // }, []);
+    useEffect(() => {
+    const checkUser = async () => {
+      try {
+        const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
+          withCredentials: true,
+        });
+        if(res.data.userId){
+          setUserId(res.data.userId);
+        }else{
+          setUserId(null)
+
+        }
+      } catch (err) {
+        setUserId(null);
+        setLoading(false)
+      }
+    };
+
+    checkUser();
+  }, [setUserId]);
    useEffect(() => {
+
         const fetchProducts = async () => {
             try {
                 const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
@@ -38,7 +59,7 @@ export const UserProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ userId, setUserId ,cartItems, setCartItems ,products,setProducts,ordersData,setOrdersData}}>
+        <UserContext.Provider value={{ userId, setUserId ,cartItems, setCartItems ,products,setProducts,ordersData,setOrdersData,loading}}>
             {children}
         </UserContext.Provider>
     );
