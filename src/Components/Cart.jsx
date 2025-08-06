@@ -122,19 +122,22 @@ const Cart = () => {
             console.log(item.productId._id);
         });
     }, [cartItems]);
-    if (loading) {
-        return (
-            <div className="min-h-screen flex items-center justify-center">
-                <p className="text-lg font-semibold">Loading...</p>
-            </div>
-        );
-    }
+    useEffect(() => {
 
-    if (!userId) {
-        navigate("/login");
-        return null;
-    }
+        if (loading) {
+            return (
+                <div className="min-h-screen flex items-center justify-center">
+                    <p className="text-lg font-semibold">Loading...</p>
+                </div>
+            );
+        }
 
+        if (!userId) {
+            navigate("/login");
+            return null;
+        }
+
+    }, [])
     if (cartItems.length === 0) {
         return (
             <div className="min-h-screen bg-gray-50">
