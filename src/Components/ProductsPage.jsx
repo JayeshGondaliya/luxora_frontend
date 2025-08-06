@@ -220,7 +220,7 @@ const ProductsPage = () => {
     useEffect(() => {
         const getAllProduct = async () => {
             try {
-                const res = await axios.get("http://localhost:8081/api/product/getProductAll", { withCredentials: true });
+                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", { withCredentials: true });
                 setProducts(res.data.data);
             } catch (error) {
                 console.log("get All product from product page", error);
