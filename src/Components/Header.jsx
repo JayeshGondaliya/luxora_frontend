@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "sonner";
@@ -40,30 +40,12 @@ const Input = ({ className = "", ...props }) => {
 
 const Header = () => {
     const [cartItems, setCartItems] = useState([]); // You can load actual cart data later
-    const { userId, setUserId, loading } = useUser();
+    const [userId, setUserId, loading] = useUser()
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const URL = "https://luxora-backend-guh1.onrender.com";
-    useEffect(() => {
-        const checkUser = async () => {
-            try {
-                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
-                    withCredentials: true,
-                });
-                if (res.data.userId) {
-                    setUserId(res.data.userId);
-                } else {
-                    setUserId(null);
-                }
-            } catch (err) {
-                setUserId(null);
-            } finally {
-                setUserLoading(false);
-            }
-        };
-        checkUser();
-    }, []);
+
     const handleLogout = async () => {
         try {
             await axios.post(`${URL}/api/user/logout`, {}, { withCredentials: true });
