@@ -19,26 +19,26 @@ export const UserProvider = ({ children }) => {
   //     setUserId(storedUserId);
   //   }
   // }, []);
-    useEffect(() => {
+   useEffect(() => {
     const checkUser = async () => {
       try {
         const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
           withCredentials: true,
         });
-        if(res.data.userId){
+        if (res.data.userId) {
           setUserId(res.data.userId);
-        }else{
-          setUserId(null)
-
+        } else {
+          setUserId(null);
         }
       } catch (err) {
         setUserId(null);
-        setLoading(false)
+      } finally {
+        setLoading(false); // loading false always in finally
       }
     };
 
     checkUser();
-  }, [setUserId]);
+}, [setLoading,setUserId]);
    useEffect(() => {
 
         const fetchProducts = async () => {
@@ -57,9 +57,15 @@ export const UserProvider = ({ children }) => {
         };
         fetchProducts();
     }, []);
-
+  if (loading) {
     return (
-        <UserContext.Provider value={{ userId, setUserId ,cartItems, setCartItems ,products,setProducts,ordersData,setOrdersData,loading}}>
+      <div className="min-h-screen flex items-center justify-center text-xl text-gray-500">
+        Loading...
+      </div>
+    );
+  }
+    return (
+        <UserContext.Provider value={{ userId, setUserId ,cartItems, setCartItems ,products,setProducts,ordersData,setOrdersData,loading,setLoading}}>
             {children}
         </UserContext.Provider>
     );
