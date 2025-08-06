@@ -7,6 +7,8 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { Toaster, toast } from 'sonner';
 import { PackageSearch } from "lucide-react";
+import React, { useState, useEffect } from "react";
+
 // Minimal Button component
 const Button = ({ children, className = "", variant = "default", size = "md", ...props }) => {
     const base = "inline-flex items-center justify-center rounded-md font-medium transition-colors focus:outline-none";
@@ -41,8 +43,9 @@ const Input = ({ className = "", ...props }) => {
 };
 
 const Header = () => {
-    const [cartItems, setCartItems] = useState(0);
-    const { userId, setUserId } = useUser();
+    const [cartItems, setCartItems] = useState([]);
+
+    const { userId, setUserId, loading, setLoading } = useUser();
     const navigate = useNavigate();
     const URL = "https://luxora-backend-guh1.onrender.com"
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -60,7 +63,25 @@ const Header = () => {
             toast.error(error)
         }
     };
+useEffect(() => {
+        const fetchUser = async () => {
+            try {
+                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
+                    withCredentials: true
+                });
+                setUserId(res.data.userId); // Or whatever user data is
+                setLoading(false);
+            } catch (err) {
+                console.error("Error fetching user", err);
+                setLoading(false);
+            }
+        };
 
+        fetchUser();
+    }, []);
+    if (loading) {
+        return <div>Loading...</div>; // Or use shimmer/spinner
+    }
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container flex h-16 items-center justify-between">
