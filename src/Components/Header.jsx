@@ -1,13 +1,9 @@
-import { Search, ShoppingCart, User, Menu, LogOut } from "lucide-react";
-import { useState } from "react";
-import { Link } from "react-router-dom";
-import React from "react";
-import { useUser } from "../Context/UserContext";
-import { useNavigate } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Toaster, toast } from 'sonner';
-import { PackageSearch } from "lucide-react";
-import React, { useState, useEffect } from "react";
+import { toast } from "sonner";
+import { Search, ShoppingCart, User, Menu, LogOut, PackageSearch } from "lucide-react";
+import { useUser } from "../Context/UserContext";
 
 // Minimal Button component
 const Button = ({ children, className = "", variant = "default", size = "md", ...props }) => {
@@ -43,36 +39,27 @@ const Input = ({ className = "", ...props }) => {
 };
 
 const Header = () => {
-    const [cartItems, setCartItems] = useState([]);
-
-    const { userId, setUserId, loading, setLoading } = useUser();
+    const [cartItems, setCartItems] = useState([]); // You can load actual cart data later
+    const { userId, setUserId, loading } = useUser();
     const navigate = useNavigate();
-    const URL = "https://luxora-backend-guh1.onrender.com"
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+    const URL = "https://luxora-backend-guh1.onrender.com";
 
     const handleLogout = async () => {
         try {
-            const res = await axios.post(`${URL}/api/user/logout`, {}, { withCredentials: true })
-
+            await axios.post(`${URL}/api/user/logout`, {}, { withCredentials: true });
             setUserId(null);
-            toast.success("Logout !")
+            toast.success("Logged out!");
             navigate("/login");
         } catch (error) {
-            console.log("login error", error);
-            toast.error(error)
+            console.error("Logout error", error);
+            toast.error("Logout failed");
         }
     };
 
-    if (loading) {
-        return (
-            <div className="h-16 flex items-center justify-center text-gray-600 text-sm">
-                Loading...
-            </div>
-        );
-    }
     const renderAuthButton = () => {
-        if (loading) return null; // Don't show anything while checking user
+        if (loading) return null;
 
         return userId ? (
             <div className="relative group">
@@ -94,6 +81,15 @@ const Header = () => {
             </Link>
         );
     };
+
+    if (loading) {
+        return (
+            <div className="h-16 flex items-center justify-center text-gray-600 text-sm">
+                Loading...
+            </div>
+        );
+    }
+
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container flex h-16 items-center justify-between">
@@ -115,7 +111,7 @@ const Header = () => {
                     </Link>
                 </div>
 
-                {/* Search Bar - desktop */}
+                {/* Search Bar - Desktop */}
                 <div className="hidden md:flex flex-1 max-w-md mx-8">
                     <div className="relative w-full">
                         <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-gray-500" />
@@ -128,7 +124,7 @@ const Header = () => {
 
                 {/* Actions */}
                 <div className="flex items-center space-x-2">
-                    {/* Mobile search toggle */}
+                    {/* Mobile Search */}
                     <Button
                         variant="ghost"
                         size="icon"
@@ -155,7 +151,7 @@ const Header = () => {
 
                     {/* Orders */}
                     <Link to="/myorder" className="relative group">
-                        <Button variant="ghost" size="icon" className="relative">
+                        <Button variant="ghost" size="icon">
                             <PackageSearch className="h-5 w-5" />
                         </Button>
                         <span className="absolute left-1/2 -bottom-8 transform -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
@@ -163,12 +159,12 @@ const Header = () => {
                         </span>
                     </Link>
 
-                    {/* Login/Logout */}
+                    {/* Auth Button */}
                     {renderAuthButton()}
                 </div>
             </div>
 
-            {/* Mobile search bar (below header) */}
+            {/* Mobile Search Bar */}
             {mobileSearchOpen && (
                 <div className="md:hidden p-4 border-b bg-white">
                     <div className="relative">
@@ -181,13 +177,13 @@ const Header = () => {
                 </div>
             )}
 
-            {/* (Optional) Mobile menu dropdown */}
+            {/* Mobile Menu */}
             {mobileMenuOpen && (
                 <div className="md:hidden bg-white border-b shadow-sm">
                     <ul className="flex flex-col space-y-2 p-4">
                         <li><Link to="/cart" className="text-sm">Cart</Link></li>
                         <li><Link to="/myorder" className="text-sm">My Order</Link></li>
-                        <li><Link to="/login" className="text-sm">Login</Link></li>
+                        {!userId && <li><Link to="/login" className="text-sm">Login</Link></li>}
                     </ul>
                 </div>
             )}
