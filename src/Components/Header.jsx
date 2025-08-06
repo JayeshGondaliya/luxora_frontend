@@ -63,22 +63,7 @@ const Header = () => {
             toast.error(error)
         }
     };
-    useEffect(() => {
-        const fetchUser = async () => {
-            try {
-                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
-                    withCredentials: true
-                });
-                setUserId(res.data.userId); // Or whatever user data is
-                setLoading(false);
-            } catch (err) {
-                console.error("Error fetching user", err);
-                setLoading(false);
-            }
-        };
-
-        fetchUser();
-    }, []);
+    
     if (loading) {
         return (
             <div className="h-16 flex items-center justify-center text-gray-600 text-sm">
