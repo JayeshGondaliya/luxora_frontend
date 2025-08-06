@@ -63,7 +63,7 @@ const Header = () => {
             toast.error(error)
         }
     };
-    
+
     if (loading) {
         return (
             <div className="h-16 flex items-center justify-center text-gray-600 text-sm">
@@ -71,6 +71,29 @@ const Header = () => {
             </div>
         );
     }
+    const renderAuthButton = () => {
+        if (loading) return null; // Don't show anything while checking user
+
+        return userId ? (
+            <div className="relative group">
+                <Button variant="ghost" size="icon" onClick={handleLogout}>
+                    <LogOut className="h-5 w-5" />
+                </Button>
+                <span className="absolute left-1/2 -bottom-8 transform -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Logout
+                </span>
+            </div>
+        ) : (
+            <Link to="/login" className="relative group">
+                <Button variant="ghost" size="icon">
+                    <User className="h-5 w-5" />
+                </Button>
+                <span className="absolute left-1/2 -bottom-8 transform -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    Login
+                </span>
+            </Link>
+        );
+    };
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
             <div className="container flex h-16 items-center justify-between">
@@ -141,25 +164,7 @@ const Header = () => {
                     </Link>
 
                     {/* Login/Logout */}
-                    {userId ? (
-                        <div className="relative group">
-                            <Button variant="ghost" size="icon" onClick={handleLogout}>
-                                <LogOut className="h-5 w-5" />
-                            </Button>
-                            <span className="absolute left-1/2 -bottom-8 transform -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                Logout
-                            </span>
-                        </div>
-                    ) : (
-                        <Link to="/login" className="relative group">
-                            <Button variant="ghost" size="icon">
-                                <User className="h-5 w-5" />
-                            </Button>
-                            <span className="absolute left-1/2 -bottom-8 transform -translate-x-1/2 text-xs bg-gray-800 text-white px-2 py-1 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                                Login
-                            </span>
-                        </Link>
-                    )}
+                    {renderAuthButton()}
                 </div>
             </div>
 
