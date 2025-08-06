@@ -22,7 +22,7 @@ export const UserProvider = ({ children }) => {
    useEffect(() => {
         const fetchProducts = async () => {
             try {
-                const res = await axios.get("http://localhost:8081/api/product/getProductAll", {
+                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
                     withCredentials: true,
                 });
                 setProducts(res.data.data || []);
