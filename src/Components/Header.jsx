@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
-import { toast } from "sonner";
+import { toast, Toaster } from "sonner";
 import { Search, ShoppingCart, User, Menu, LogOut, PackageSearch } from "lucide-react";
 import { useUser } from "../Context/UserContext";
 
@@ -40,12 +40,12 @@ const Input = ({ className = "", ...props }) => {
 
 const Header = () => {
     const [cartItems, setCartItems] = useState([]); // You can load actual cart data later
-    const { userId, setUserId, loading } = useUser()
+    const { userId, setUserId, loading, setLoading } = useUser();
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-    const URL = "https://luxora-backend-guh1.onrender.com";
 
+    const URL = "https://luxora-backend-guh1.onrender.com";
 
     const handleLogout = async () => {
         try {
@@ -83,6 +83,10 @@ const Header = () => {
         );
     };
 
+    useEffect(() => {
+        // Optionally: You can fetch cart or user data if needed here
+    }, []);
+
     if (loading) {
         return (
             <div className="h-16 flex items-center justify-center text-gray-600 text-sm">
@@ -93,6 +97,7 @@ const Header = () => {
 
     return (
         <header className="sticky top-0 z-50 w-full border-b bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/60">
+            <Toaster />
             <div className="container flex h-16 items-center justify-between">
                 {/* Logo + Mobile Menu */}
                 <div className="flex items-center space-x-4">
@@ -160,7 +165,7 @@ const Header = () => {
                         </span>
                     </Link>
 
-                    {/* Auth Button */}
+                    {/* Auth Button (Login or Logout) */}
                     {renderAuthButton()}
                 </div>
             </div>
