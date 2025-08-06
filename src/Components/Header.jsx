@@ -45,7 +45,25 @@ const Header = () => {
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
     const URL = "https://luxora-backend-guh1.onrender.com";
-
+    useEffect(() => {
+        const checkUser = async () => {
+            try {
+                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
+                    withCredentials: true,
+                });
+                if (res.data.userId) {
+                    setUserId(res.data.userId);
+                } else {
+                    setUserId(null);
+                }
+            } catch (err) {
+                setUserId(null);
+            } finally {
+                setUserLoading(false);
+            }
+        };
+        checkUser();
+    }, []);
     const handleLogout = async () => {
         try {
             await axios.post(`${URL}/api/user/logout`, {}, { withCredentials: true });
