@@ -123,7 +123,7 @@ const Checkout = () => {
       const stripe = await stripePromise;
 
       const response = await axios.post(
-        "http://localhost:8081/api/payments/create-checkout-session",
+        "https://luxora-backend-guh1.onrender.com/api/payments/create-checkout-session",
         {
           cartItems,
           userId,
