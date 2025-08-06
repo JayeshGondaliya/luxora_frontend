@@ -53,11 +53,11 @@ const AppContent = () => {
 };
 
 const App = () => (
+  <UserProvider>
   <QueryClientProvider client={queryClient}>
-    <UserProvider>
       <AppContent />
-    </UserProvider>
   </QueryClientProvider>
+    </UserProvider>
 );
 
 export default App;
