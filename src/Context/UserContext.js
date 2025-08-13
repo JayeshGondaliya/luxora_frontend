@@ -43,8 +43,9 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
+        // const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
         // const res = await axios.get(`${URL}/api/product/getProductAll`, {
+        const res = await axios.get(`${URL}/api/product/getProductAll`, {
           withCredentials: true,
         });
         setProducts(res.data.data || []);
