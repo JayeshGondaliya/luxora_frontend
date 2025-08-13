@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast, Toaster } from "sonner";
+// import { toast } from "sonner";
 import { Search, ShoppingCart, User, Menu, LogOut, PackageSearch } from "lucide-react";
 import { useUser } from "../Context/UserContext";
 
@@ -44,6 +45,7 @@ const Header = () => {
     const navigate = useNavigate();
     const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
     const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+
 
     const URL = "https://luxora-backend-guh1.onrender.com";
 
@@ -166,6 +168,7 @@ const Header = () => {
                     </Link>
 
                     {/* Auth Button (Login or Logout) */}
+                    {/* Auth Button */}
                     {renderAuthButton()}
                 </div>
             </div>

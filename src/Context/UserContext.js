@@ -14,6 +14,7 @@ export const UserProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [productsLoading, setProductsLoading] = useState(true);
 
+    const URL = "https://luxora-backend-guh1.onrender.com";
   // Combined loading state
   
 
@@ -21,7 +22,7 @@ export const UserProvider = ({ children }) => {
   useEffect(() => {
     const checkUser = async () => {
       try {
-        const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/user/get-user", {
+        const res = await axios.get(`${URL}/api/user/get-user`, {
           withCredentials: true,
         });
         if (res.data.userId) {
@@ -43,6 +44,7 @@ export const UserProvider = ({ children }) => {
     const fetchProducts = async () => {
       try {
         const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", {
+        // const res = await axios.get(`${URL}/api/product/getProductAll`, {
           withCredentials: true,
         });
         setProducts(res.data.data || []);

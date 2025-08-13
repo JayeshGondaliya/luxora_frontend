@@ -14,6 +14,7 @@ import {
 } from 'lucide-react';
 
 const MyOrder = () => {
+    const URL = "https://luxora-backend-guh1.onrender.com";
     const [orders, setOrders] = useState([]);
     const [totalOrders, setTotalOrders] = useState(0);
     const [loading, setLoading] = useState(true);
@@ -22,7 +23,7 @@ const MyOrder = () => {
 
     const fetchOrders = async () => {
         try {
-            const res = await axios.get(`https://luxora-backend-guh1.onrender.com/api/order/getorder/${userId}`, {
+            const res = await axios.get(`${URL}/api/order/getorder/${userId}`, {
                 withCredentials: true
             });
             setOrders(res.data.data || []);

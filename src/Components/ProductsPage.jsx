@@ -216,11 +216,11 @@ const ProductsPage = () => {
     const [priceRange, setPriceRange] = useState([0, 100000]);
     const [minratings, setMinratings] = useState(null);
     const [showInStockOnly, setShowInStockOnly] = useState(false);
-
+    const URL = "https://luxora-backend-guh1.onrender.com";
     useEffect(() => {
         const getAllProduct = async () => {
             try {
-                const res = await axios.get("https://luxora-backend-guh1.onrender.com/api/product/getProductAll", { withCredentials: true });
+                const res = await axios.get(`${URL}/api/product/getProductAll`, { withCredentials: true });
                 setProducts(res.data.data);
             } catch (error) {
                 console.log("get All product from product page", error);

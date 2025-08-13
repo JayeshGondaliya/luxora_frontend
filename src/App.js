@@ -21,10 +21,13 @@ import ProductsPage from "./Components/ProductsPage";
 import Success from "./Components/Success";
 import Cancel from "./Components/Cancel";
 import Myorder from "./Components/Myorder";
+import AIAssistant from "./Components/AIAssistant";
 
 const queryClient = new QueryClient();
 
 const AppContent = () => {
+  const { userId, setUserId,loading } = useUser();
+
 
 
 
@@ -44,7 +47,9 @@ const AppContent = () => {
         <Route path="/success" element={<Success />} />
         <Route path="/cancel" element={<Cancel />} />
         <Route path="/myorder" element={<Myorder />} />
+
       </Routes>
+      <AIAssistant/>
       <Footer />
       <Toaster richColors position="top-right" />
     </BrowserRouter>

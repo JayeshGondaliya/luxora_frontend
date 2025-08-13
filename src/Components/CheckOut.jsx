@@ -78,7 +78,8 @@ const Checkout = () => {
   const shipping = 0;
   const tax = 0;
   const total = cartTotal + shipping + tax;
-  const URL = "https://luxora-backend-guh1.onrender.com"
+  const URL = "https://luxora-backend-guh1.onrender.com";
+
   useEffect(() => {
     console.log("user", userDetails);
 

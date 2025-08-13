@@ -32,6 +32,7 @@ const ProductDetails = () => {
     const [trendingProducts, setTrendingProducts] = useState([]);
     const [currentSlide, setCurrentSlide] = useState(0);
     const URL = "https://luxora-backend-guh1.onrender.com";
+
     const { userId } = useUser();
     const navigate = useNavigate();
 
