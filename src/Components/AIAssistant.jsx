@@ -207,7 +207,10 @@ const AIAssistant = () => {
                                             : "bg-gray-800 text-white border border-gray-700"
                                             }`}
                                     >
-                                        <p className="text-sm">{message.content}</p>
+                                         <div
+                                            className="text-sm"
+                                            dangerouslySetInnerHTML={{ __html: message.content }}
+                                        />
                                         <span className="text-xs opacity-70 mt-1 block">
                                             {message.timestamp.toLocaleTimeString([], {
                                                 hour: "2-digit",
