@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, forwardRef } from "react";
-import { MessageCircle, Send, X, Minimize2 } from "lucide-react";
+import { MessageCircle, Send, X } from "lucide-react";
 import axios from "axios";
 
 // Custom Button
@@ -104,7 +104,7 @@ const AIAssistant = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post("https://luxora-backend-guh1.onrender.com/api/assistant/chat", {
+            const response = await axios.post(`${URL}/api/assistant/chat`, {
                 userMessage: inputValue,
                 history: messages,
             });
@@ -112,7 +112,9 @@ const AIAssistant = () => {
             const data = response.data;
             const assistantMessage = {
                 id: (Date.now() + 1).toString(),
-                content: data.reply || "Sorry, I encountered an error. Please try again.",
+                content: (data.reply || "Sorry, I encountered an error. Please try again.")
+                    .trim()
+                    .replace(/<a /g, '<a target="_blank" rel="noopener noreferrer" '),
                 role: "assistant",
                 timestamp: new Date(),
             };
@@ -172,14 +174,6 @@ const AIAssistant = () => {
                     <h3 className="font-semibold">AI Assistant</h3>
                 </div>
                 <div className="flex space-x-1">
-                    {/* <Button
-                        variant="ghost"
-                        size="icon"
-                        onClick={() => setIsMinimized(!isMinimized)}
-                        aria-label={isMinimized ? "Maximize assistant" : "Minimize assistant"}
-                    >
-                        <Minimize2 className="h-4 w-4 text-white" />
-                    </Button> */}
                     <Button
                         variant="ghost"
                         size="icon"
@@ -207,10 +201,11 @@ const AIAssistant = () => {
                                             : "bg-gray-800 text-white border border-gray-700"
                                             }`}
                                     >
-                                         <div
+                                        <div
                                             className="text-sm"
                                             dangerouslySetInnerHTML={{ __html: message.content }}
                                         />
+
                                         <span className="text-xs opacity-70 mt-1 block">
                                             {message.timestamp.toLocaleTimeString([], {
                                                 hour: "2-digit",
