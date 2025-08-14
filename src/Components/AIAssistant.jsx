@@ -9,6 +9,7 @@ const Button = ({
     className = "",
     variant = "default",
     size = "base",
+    ...props
 }) => {
     const variants = {
         default: "bg-black text-white hover:bg-gray-800",
@@ -25,6 +26,7 @@ const Button = ({
     return (
         <button
             onClick={onClick}
+            {...props}
             className={`rounded-xl transition duration-200 ${variants[variant]} ${sizes[size]} ${className}`}
         >
             {children}
@@ -57,10 +59,10 @@ export const ScrollArea = forwardRef(({ children, className = "" }, ref) => {
     );
 });
 
-// Main Component
 const AIAssistant = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
+    const URL = "https://luxora-backend-guh1.onrender.com";
     const [messages, setMessages] = useState([
         {
             id: "1",
@@ -75,21 +77,18 @@ const AIAssistant = () => {
     const scrollAreaRef = useRef(null);
     const inputRef = useRef(null);
 
-    // Auto-scroll
     useEffect(() => {
         if (scrollAreaRef.current) {
             scrollAreaRef.current.scrollTop = scrollAreaRef.current.scrollHeight;
         }
     }, [messages]);
 
-    // Auto-focus
     useEffect(() => {
         if (isOpen && !isMinimized && inputRef.current) {
             inputRef.current.focus();
         }
     }, [isOpen, isMinimized]);
 
-    // Send message
     const sendMessage = async () => {
         if (!inputValue.trim() || isLoading) return;
 
@@ -105,7 +104,7 @@ const AIAssistant = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post("https://luxora-backend-guh1.onrender.com/api/assistant/chat", {
+            const response = await axios.post("http://localhost:8081/api/assistant/chat", {
                 userMessage: inputValue,
                 history: messages,
             });
@@ -135,7 +134,6 @@ const AIAssistant = () => {
         }
     };
 
-    // Handle enter key
     const handleKeyDown = (e) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
@@ -146,10 +144,10 @@ const AIAssistant = () => {
     // Floating open button
     if (!isOpen) {
         return (
-            <div className="fixed bottom-6 right-6 z-50">
+            <div className="fixed bottom-4 right-4 z-50 sm:bottom-6 sm:right-6">
                 <Button
                     onClick={() => setIsOpen(true)}
-                    className="h-14 w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-black flex items-center justify-center"
+                    className="h-12 w-12 sm:h-14 sm:w-14 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 bg-black flex items-center justify-center"
                     size="icon"
                     aria-label="Open AI Assistant"
                 >
@@ -159,24 +157,29 @@ const AIAssistant = () => {
         );
     }
 
-    // Chat window
+    // Chat window responsive
     return (
-        <div className="fixed bottom-6 right-6 w-96 h-[500px] flex flex-col rounded-lg shadow-lg overflow-hidden bg-black text-white border border-gray-700 z-50">
+        <div
+            className={`
+                fixed bottom-0 left-0 right-0 h-[80vh] flex flex-col rounded-t-lg shadow-lg overflow-hidden bg-black text-white border border-gray-700 z-50
+                sm:bottom-6 sm:right-6 sm:left-auto sm:w-96 sm:h-[500px] sm:rounded-lg
+            `}
+        >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-gray-700 bg-black text-white">
+            <div className="flex items-center justify-between p-3 sm:p-4 border-b border-gray-700 bg-black text-white">
                 <div className="flex items-center space-x-2">
                     <MessageCircle className="h-5 w-5 text-white" />
                     <h3 className="font-semibold">AI Assistant</h3>
                 </div>
                 <div className="flex space-x-1">
-                    <Button
+                    {/* <Button
                         variant="ghost"
                         size="icon"
                         onClick={() => setIsMinimized(!isMinimized)}
                         aria-label={isMinimized ? "Maximize assistant" : "Minimize assistant"}
                     >
-                        {/*      */}
-                    </Button>
+                        <Minimize2 className="h-4 w-4 text-white" />
+                    </Button> */}
                     <Button
                         variant="ghost"
                         size="icon"
@@ -191,7 +194,7 @@ const AIAssistant = () => {
             {/* Messages */}
             {!isMinimized && (
                 <>
-                    <ScrollArea ref={scrollAreaRef} className="flex-1 p-4 bg-black">
+                    <ScrollArea ref={scrollAreaRef} className="flex-1 p-3 sm:p-4 bg-black">
                         <div className="space-y-4">
                             {messages.map((message) => (
                                 <div
@@ -199,7 +202,7 @@ const AIAssistant = () => {
                                     className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}
                                 >
                                     <div
-                                        className={`max-w-[80%] p-3 rounded-lg ${message.role === "user"
+                                        className={`max-w-[85%] p-3 rounded-lg ${message.role === "user"
                                             ? "bg-gray-900 text-white border border-gray-700"
                                             : "bg-gray-800 text-white border border-gray-700"
                                             }`}
@@ -236,7 +239,7 @@ const AIAssistant = () => {
                     </ScrollArea>
 
                     {/* Input */}
-                    <div className="p-4 border-t border-gray-700 bg-black">
+                    <div className="p-3 sm:p-4 border-t border-gray-700 bg-black">
                         <div className="flex space-x-2">
                             <Input
                                 ref={inputRef}
@@ -245,6 +248,7 @@ const AIAssistant = () => {
                                 onKeyDown={handleKeyDown}
                                 placeholder="Type your message..."
                                 disabled={isLoading}
+                                className="w-full"
                             />
                             <Button
                                 onClick={sendMessage}
