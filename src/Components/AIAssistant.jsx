@@ -63,6 +63,7 @@ const AIAssistant = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isMinimized, setIsMinimized] = useState(false);
     const URL = "https://luxora-backend-guh1.onrender.com";
+    // const URL = "http://localhost:8081"
     const [messages, setMessages] = useState([
         {
             id: "1",
