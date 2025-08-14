@@ -104,7 +104,7 @@ const AIAssistant = () => {
         setIsLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8081/api/assistant/chat", {
+            const response = await axios.post("https://luxora-backend-guh1.onrender.com/api/assistant/chat", {
                 userMessage: inputValue,
                 history: messages,
             });
